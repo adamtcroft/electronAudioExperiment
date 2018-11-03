@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Include Materialize CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Electron Requirements -->
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+    </script>
+    
+    <title>Web Audio Experiments</title>
+</head>
+<body>
+    <a class="waves-effect waves-light btn" onclick="Open()">Open</a>
+    <a class="waves-effect waves-light btn" onclick="Start()">Start</a>
+    <a class="waves-effect waves-light btn" onclick="Stop()">Stop</a>
+
+    <script>
+    function Open(){
+        ipcRenderer.send('Open');
+    }
+
+    function Start(){
+        alert("You clicked start!");
+    }
+
+    function Stop(){
+        alert("You clicked stop!");
+    }
+    </script>
+</body>
+</html>
