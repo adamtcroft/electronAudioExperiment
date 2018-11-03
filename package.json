@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/adamtcroft/electronAudioExperiment#readme",
   "dependencies": {
-    "electron": "^3.0.7"
+    "electron": "^3.0.7",
+    "howler": "^2.0.15"
   }
 }

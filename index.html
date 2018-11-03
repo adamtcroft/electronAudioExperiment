@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,31 +10,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <!-- Electron Requirements -->
+    <!-- Howler Include -->
+    <script src = "./node_modules/howler/src/howler.core.js"></script>
+
+    <!-- Electron Include -->
     <script>
-        const electron = require('electron');
-        const {ipcRenderer} = electron;
+        const { ipcRenderer } = require('electron');
     </script>
-    
+
     <title>Web Audio Experiments</title>
 </head>
+
 <body>
     <a class="waves-effect waves-light btn" onclick="Open()">Open</a>
-    <a class="waves-effect waves-light btn" onclick="Start()">Start</a>
+    <a class="waves-effect waves-light btn" onclick="Play()">Play</a>
     <a class="waves-effect waves-light btn" onclick="Stop()">Stop</a>
 
     <script>
-    function Open(){
-        ipcRenderer.send('Open');
-    }
+        let sound;
 
-    function Start(){
-        alert("You clicked start!");
-    }
+        function Open() {
+            ipcRenderer.send('Open')
+        }
 
-    function Stop(){
-        alert("You clicked stop!");
-    }
+        function Play() {
+            ipcRenderer.send('Play');
+        }
+
+        function Stop() {
+            ipcRenderer.send('Stop');
+        }
+
+        ipcRenderer.on('PlaySound', (event, filepath) => {
+            console.log(filepath);
+            sound = new Howl({
+                src: [filepath]
+            });
+            sound.play();
+        });
+
+        ipcRenderer.on('StopSound', (event) => {
+            sound.stop();
+        });
     </script>
 </body>
+
 </html>
