@@ -18,13 +18,19 @@
         const { ipcRenderer } = require('electron');
     </script>
 
+    <style>
+        body{overflow-y:hidden;}
+    </style>
+
     <title>Web Audio Experiments</title>
 </head>
 
 <body>
-    <a class="waves-effect waves-light btn" onclick="Open()">Open</a>
-    <a class="waves-effect waves-light btn" onclick="Play()">Play</a>
-    <a class="waves-effect waves-light btn" onclick="Stop()">Stop</a>
+    <center>
+    <p><a class="waves-effect waves-light btn" onclick="Open()">Open</a></p>
+    <p><a class="waves-effect waves-light btn" onclick="Play()">Play</a></p>
+    <p><a class="waves-effect waves-light btn" onclick="Stop()">Stop</a></p>
+    </center>
 
     <script>
         let sound;

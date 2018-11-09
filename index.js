@@ -6,15 +6,16 @@ let openFileDialogOptions = {
     filters: [
         { name: 'Audio Files', extensions: ['wav', 'mp3'] }
     ]
-};
+}
 let selectedFilePath;
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow()
+    mainWindow = new BrowserWindow({width:150, height:200});
+    mainWindow.setMenu(null);
 
     // and load the index.html of the app.
-    mainWindow.loadFile('index.html')
+    mainWindow.loadFile('index.html');
 }
 
 app.on('ready', createWindow)
