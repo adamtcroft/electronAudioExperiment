@@ -27,7 +27,7 @@ ipcMain.on('Open', (event) => {
             audioFileList.push(path);
         });
         console.log(audioFileList);
-        //mainWindow.webContents.send('AddFiles', audioFileList);
+        mainWindow.webContents.send('AddFiles', audioFileList);
     });
 });
 
