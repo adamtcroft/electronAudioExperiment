@@ -6,57 +6,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link rel="stylesheet" href="index.css">
+
     <!-- Include Materialize CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Howler Include -->
-    <script src = "./node_modules/howler/src/howler.core.js"></script>
+    <!-- WaveSurfer Include -->
+    <script src="https://unpkg.com/wavesurfer.js"></script>
 
     <!-- Electron Include -->
     <script>
         const { ipcRenderer } = require('electron');
+        //const wavesurfer = require('wavesurfer.js');
     </script>
 
-    <style>
-        body{overflow-y:hidden;}
-    </style>
-
-    <title>Web Audio Experiments</title>
+    <title>Experiment</title>
 </head>
 
 <body>
-    <center>
-    <p><a class="waves-effect waves-light btn" onclick="Open()">Open</a></p>
-    <p><a class="waves-effect waves-light btn" onclick="Play()">Play</a></p>
-    <p><a class="waves-effect waves-light btn" onclick="Stop()">Stop</a></p>
-    </center>
+    <div class="table">
+        <div class="cell">
+            <div class="container">
+                <div class="files">files</div>
+                <div class="EQ">equalizer</div>
+                <div class="transport">
+                    <a class="waves-effect waves-light btn-floating" onclick="Open()"><i class="material-icons">add</i></a>
+                    <a class="waves-effect waves-light btn-floating" onclick="Play()"><i class="material-icons">play_arrow</i></a>
+                    <a class="waves-effect waves-light btn-floating" onclick="Pause()"><i class="material-icons">pause</i></a>
+                    <a class="waves-effect waves-light btn-floating" onclick="Stop()"><i class="material-icons">stop</i></a>
+                    <div id="waveform"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        let sound;
+        let wavefile;
 
         function Open() {
             ipcRenderer.send('Open')
         }
 
         function Play() {
-            ipcRenderer.send('Play');
+            wavefile.play();
+        }
+
+        function Pause() {
+            ipcRenderer.send('Pause');
         }
 
         function Stop() {
             ipcRenderer.send('Stop');
         }
 
-        ipcRenderer.on('PlaySound', (event, filepath) => {
+        ipcRenderer.on('DrawWave', (event, filepath) => {
             console.log(filepath);
-            sound = new Howl({
-                src: [filepath]
+            var wavefile = WaveSurfer.create({
+                container: '#waveform',
+                waveColor: 'white',
+                progressColor: 'purple',
+                responsive: true,
+                height: 40
             });
-            sound.play();
+            wavefile.load(filepath);
+        });
+
+        ipcRenderer.on('PlaySound', (event, filepath) => {
+        });
+
+        ipcRenderer.on('PauseSound', (event) => {
         });
 
         ipcRenderer.on('StopSound', (event) => {
-            sound.stop();
         });
     </script>
 </body>
