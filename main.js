@@ -20,12 +20,15 @@ function createWindow() {
     mainWindow.loadFile('index.html');
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 ipcMain.on('Open', (event) => {
     dialog.showOpenDialog(openFileDialogOptions, function (filepath) {
         try {
-            AFLM.AddToList(filepath);
+            var itWasAdded = AFLM.AddToList(filepath);
+            if(itWasAdded){
+                mainWindow.webContents.send('FileAdded', filepath);
+            }
         }
         catch(e){
             if(e.name == 'TypeError'){

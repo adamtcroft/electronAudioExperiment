@@ -19,7 +19,6 @@
     </script>
 
     <!-- Renderer-side JavaScript Includes -->
-    <script src="./audioFileUIManager.js"></script>
     <script src="./index.js"></script>
 
     <title>Experiment</title>
@@ -45,8 +44,9 @@
 
     <script>
 
-        ipcRenderer.on('UpdateFiles', (event, audioFileList) => {
-            UpdateFileListUI(audioFileList);
+        ipcRenderer.on('FileAdded', (event, audioFile) => {
+            console.log("received");
+            UpdateFileListUI(audioFile);
         });
 
         ipcRenderer.on('DrawWave', (event, filepath) => {

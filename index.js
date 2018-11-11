@@ -29,27 +29,21 @@ function DrawWave(file) {
     wavefile.load(file);
 }
 
-function UpdateFileListUI(audioFileList) {
+function UpdateFileListUI(audioFile) {
+    console.log(audioFile);
     let fileListCollection = document.getElementById("fileList");
-
-    while (fileListCollection.firstChild) {
-        fileListCollection.removeChild(fileListCollection.firstChild);
-    }
-
-    audioFileList.forEach((file) => {
-        let anchor = document.createElement("a");
-        anchor.className = "collection-item";
-        anchor.onclick = () => {
-            IsSomethingSelectedAlready();
-            anchor.classList.add("active");
-            //DrawWave(file);
-        };
-        let n = file.lastIndexOf('\\');
-        let filenameSubstring = file.substring(n + 1);
-        let value = document.createTextNode(filenameSubstring);
-        anchor.appendChild(value);
-        fileListCollection.appendChild(anchor);
-    });
+    let anchor = document.createElement("a");
+    anchor.className = "collection-item";
+    anchor.onclick = () => {
+        IsSomethingSelectedAlready();
+        anchor.classList.add("active");
+        //DrawWave(file);
+    };
+    let n = audioFile[0].lastIndexOf('\\');
+    let filenameSubstring = audioFile[0].substring(n + 1);
+    let value = document.createTextNode(filenameSubstring);
+    anchor.appendChild(value);
+    fileListCollection.appendChild(anchor);
 }
 
 function IsSomethingSelectedAlready() {
