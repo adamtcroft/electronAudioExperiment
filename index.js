@@ -42,7 +42,7 @@ function UpdateFileListUI(audioFileList) {
         anchor.onclick = () => {
             IsSomethingSelectedAlready();
             anchor.classList.add("active");
-            DrawWave(file);
+            //DrawWave(file);
         };
         let n = file.lastIndexOf('\\');
         let filenameSubstring = file.substring(n + 1);
