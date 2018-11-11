@@ -18,11 +18,14 @@
 }
 
 .container > div {
-    display: flex;
     padding: 3px;
 }
 
-.files, .EQ {
+.EQ {
+    background-color: white;
+}
+
+.collection{
     background-color: white;
 }
 

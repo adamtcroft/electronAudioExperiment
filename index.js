@@ -1,40 +1,36 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const WaveSurfer = require('wavesurfer.js');
 
-let mainWindow;
-let audioFileList = [];
-let openFileDialogOptions = {
-    title: "Choose an Audio File",
-    properties: ['multiSelections', 'openFile'],
-    filters: [
-        { name: 'Audio Files', extensions: ['wav'] }
-    ]
+let wavefile;
+
+function Open() {
+    ipcRenderer.send('Open')
 }
 
-function createWindow() {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({ height: 480, width: 550 });
-    mainWindow.setMenu(null);
-
-    // and load the index.html of the app.
-    mainWindow.loadFile('index.html');
+function Play() {
+    wavefile.play();
 }
 
-app.on('ready', createWindow)
+function Pause() {
+    wavefile.playPause();
+}
 
-ipcMain.on('Open', (event) => {
-    dialog.showOpenDialog(openFileDialogOptions, function (filepaths) {
-        filepaths.forEach((path) => {
-            audioFileList.push(path);
-        });
-        console.log(audioFileList);
-        mainWindow.webContents.send('AddFiles', audioFileList);
+function Stop() {
+    wavefile.stop();
+}
+
+function DrawWave() {
+    wavefile = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: 'white',
+        progressColor: '#85754d',
+        responsive: true,
+        height: 40
     });
-});
+    wavefile.load(filepath);
+}
 
-ipcMain.on('Pause', (event) => {
-    mainWindow.webContents.send('PauseSound');
-});
-
-ipcMain.on('Stop', (event) => {
-    mainWindow.webContents.send('StopSound');
-});
+module.exports.Open = Open;
+module.exports.Play = Play;
+module.exports.Pause = Pause;
+module.exports.Stop = Stop;
+module.exports.DrawWave = DrawWave;

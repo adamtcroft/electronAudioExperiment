@@ -16,8 +16,11 @@
     <!-- Electron Include -->
     <script>
         const { ipcRenderer } = require('electron');
-        const WaveSurfer = require('wavesurfer.js');
     </script>
+
+    <!-- Renderer-side JavaScript Includes -->
+    <script src="./audioFileUIManager.js"></script>
+    <script src="./index.js"></script>
 
     <title>Experiment</title>
 </head>
@@ -26,12 +29,12 @@
     <div class="table">
         <div class="cell">
             <div class="container">
-                <div class="files"><ul id="fileList"></ul></div>
+                <div class="collection" id="fileList">
+                </div>
                 <div class="EQ">equalizer</div>
                 <div class="transport">
                     <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Open()"><i class="material-icons">add</i></a>
-                    <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Play()"><i
-                            class="material-icons">play_arrow</i></a>
+                    <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Play()"><i class="material-icons">play_arrow</i></a>
                     <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Pause()"><i class="material-icons">pause</i></a>
                     <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Stop()"><i class="material-icons">stop</i></a>
                     <div id="waveform"></div>
@@ -41,55 +44,14 @@
     </div>
 
     <script>
-        let wavefile;
+        var AFUIM = new AudioFileUIManager();
 
-        function Open() {
-            ipcRenderer.send('Open')
-        }
-
-        function Play() {
-            wavefile.play();
-        }
-
-        function Pause() {
-            wavefile.playPause();
-        }
-
-        function Stop() {
-            wavefile.stop();
-        }
-
-        ipcRenderer.on('AddFiles', (event, paths) =>{
-            var fileList = document.getElementById("fileList");
-            paths.forEach((path) =>{
-                var pathLI = document.createElement("li");
-                var n = path.lastIndexOf('\\');
-                var filenameSubstring = path.substring(n+1);
-                var value = document.createTextNode(filenameSubstring);
-                pathLI.appendChild(value);
-                fileList.appendChild(pathLI);
-            })
-        })
+        ipcRenderer.on('UpdateFiles', (event, audioFileList) => {
+            AFUIM.UpdateFileListUI(audioFileList);
+        });
 
         ipcRenderer.on('DrawWave', (event, filepath) => {
-            console.log(filepath);
-            wavefile = WaveSurfer.create({
-                container: '#waveform',
-                waveColor: 'white',
-                progressColor: '#85754d',
-                responsive: true,
-                height: 40
-            });
-            wavefile.load(filepath);
-        });
-
-        ipcRenderer.on('PlaySound', (event, filepath) => {
-        });
-
-        ipcRenderer.on('PauseSound', (event) => {
-        });
-
-        ipcRenderer.on('StopSound', (event) => {
+            DrawWave();
         });
     </script>
 </body>
