@@ -24,9 +24,14 @@ app.on('ready', createWindow)
 
 ipcMain.on('Open', (event) => {
     dialog.showOpenDialog(openFileDialogOptions, function (filepath) {
-        AFLM.AddToList(filepath);
-        //console.log(AFLM.PrintFileList());
-        mainWindow.webContents.send('UpdateFiles', AFLM.audioFileList)
+        try {
+            AFLM.AddToList(filepath);
+        }
+        catch(e){
+            if(e.name == 'TypeError'){
+                return;
+            }
+        }
     });
 });
 
