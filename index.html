@@ -44,10 +44,9 @@
     </div>
 
     <script>
-        var AFUIM = new AudioFileUIManager();
 
         ipcRenderer.on('UpdateFiles', (event, audioFileList) => {
-            AFUIM.UpdateFileListUI(audioFileList);
+            UpdateFileListUI(audioFileList);
         });
 
         ipcRenderer.on('DrawWave', (event, filepath) => {
