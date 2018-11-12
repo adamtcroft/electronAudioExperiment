@@ -21,17 +21,21 @@
     padding: 3px;
 }
 
-.EQ {
-    background-color: white;
-}
-
 .collection{
     background-color: white;
 }
 
-.transport, .EQ {
+.transport, .rackUnit {
     display: flex;
     grid-column: 1 / -1;
+}
+
+.rackUnit {
+    background-color: white;
+}
+
+.ruButtons {
+    margin-left:auto;
 }
 
 html, body {

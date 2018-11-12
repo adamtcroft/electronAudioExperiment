@@ -10,6 +10,16 @@ function Open() {
     ipcRenderer.send('Open')
 }
 
+function Remove() {
+    var anchor = document.getElementsByClassName("active");
+    if (anchor.length != 0) {
+        Stop();
+        ClearWaveformDrawings();
+        ipcRenderer.send('Remove', anchor[0].innerHTML);
+        anchor[0].remove();
+    }
+}
+
 function Play() {
     wavefile.play();
 }
@@ -23,15 +33,14 @@ function Stop() {
 }
 
 function DrawWave(file) {
-    if(wavefile != null && wavefile.isPlaying())
-    {
+    if (wavefile != null && wavefile.isPlaying()) {
         Stop();
     }
 
     wavefile = WaveSurfer.create({
         container: '#waveform',
         waveColor: 'white',
-        progressColor: '#85754d',
+        progressColor: '#827717',
         responsive: true,
         height: 40
     });
@@ -72,9 +81,12 @@ function IsSomethingSelectedAlready() {
 }
 
 function ClearWaveformDrawings() {
-    let waveformDrawing = document.getElementById("waveform");
-    while(waveformDrawing.hasChildNodes()){
-        waveformDrawing.removeChild(waveformDrawing.childNodes[0]);
+    if (wavefile != null) {
+        wavefile.empty();
+        let waveformDrawing = document.getElementById("waveform");
+        while (waveformDrawing.hasChildNodes()) {
+            waveformDrawing.removeChild(waveformDrawing.childNodes[0]);
+        }
     }
 }
 
@@ -82,5 +94,6 @@ module.exports.Open = Open;
 module.exports.Play = Play;
 module.exports.Pause = Pause;
 module.exports.Stop = Stop;
+module.exports.Remove = Remove;
 module.exports.DrawWave = DrawWave;
 module.exports.UpdateFileListUI = UpdateFileListUI;

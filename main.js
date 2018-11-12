@@ -26,22 +26,27 @@ ipcMain.on('Open', (event) => {
     dialog.showOpenDialog(openFileDialogOptions, function (filepath) {
         try {
             var itWasAdded = AFLM.AddToList(filepath);
-            if(itWasAdded){
+            if (itWasAdded) {
                 mainWindow.webContents.send('FileAdded', filepath);
             }
         }
-        catch(e){
-            if(e.name == 'TypeError'){
+        catch (e) {
+            if (e.name == 'TypeError') {
                 return;
             }
         }
     });
 });
 
-ipcMain.on('Pause', (event) => {
-    mainWindow.webContents.send('PauseSound');
-});
-
-ipcMain.on('Stop', (event) => {
-    mainWindow.webContents.send('StopSound');
-});
+ipcMain.on('Remove', (event, shortNameOfActiveFile) => {
+    console.log("in remove " + shortNameOfActiveFile);
+    AFLM.audioFileList.forEach((fileInList) => {
+        let n = fileInList.lastIndexOf('\\');
+        let filenameSubstring = fileInList.substring(n + 1);
+        if(shortNameOfActiveFile === filenameSubstring){
+            var index = AFLM.audioFileList.indexOf(fileInList);
+            AFLM.audioFileList.splice(index, 1);
+            console.log(AFLM.audioFileList);
+        }
+    })
+})

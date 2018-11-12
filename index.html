@@ -30,9 +30,16 @@
             <div class="container">
                 <div class="collection" id="fileList">
                 </div>
-                <div class="EQ">equalizer</div>
+                <div class="rackUnit">
+                    <div class="EQ">equalizer</div>
+                    <div class="ruButtons">
+                        <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Open()"><i
+                                class="material-icons">add</i></a>
+                        <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Remove()"><i
+                                class="material-icons">remove</i></a>
+                    </div>
+                </div>
                 <div class="transport">
-                    <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Open()"><i class="material-icons">add</i></a>
                     <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Play()"><i class="material-icons">play_arrow</i></a>
                     <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Pause()"><i class="material-icons">pause</i></a>
                     <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Stop()"><i class="material-icons">stop</i></a>
