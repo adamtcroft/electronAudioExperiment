@@ -30,6 +30,7 @@
 }
 
 .transport, .EQ {
+    display: flex;
     grid-column: 1 / -1;
 }
 
