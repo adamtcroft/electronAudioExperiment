@@ -31,7 +31,7 @@
                 <div class="collection" id="fileList">
                 </div>
                 <div class="rackUnit">
-                    <div class="EQ">equalizer</div>
+                    <div class="EQ"></div>
                     <div class="ruButtons">
                         <a class="waves-effect waves-light btn-floating purple darken-4" onclick="Open()"><i
                                 class="material-icons">add</i></a>
@@ -50,7 +50,6 @@
     </div>
 
     <script>
-
         ipcRenderer.on('FileAdded', (event, audioFile) => {
             console.log("received");
             UpdateFileListUI(audioFile);

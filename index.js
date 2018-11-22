@@ -1,6 +1,7 @@
 const WaveSurfer = require('wavesurfer.js');
 
 let wavefile;
+let EQ;
 let normalTextColor = "black-text";
 let activeTextColor = "white-text";
 let activeBackgroundColor = "lime";
@@ -45,6 +46,64 @@ function DrawWave(file) {
         height: 40
     });
     wavefile.load(file);
+
+    wavefile.on('ready', () =>{
+        EQ = [
+            {
+                f: 32,
+                type: 'lowshelf'
+            },{
+                f: 125,
+                type: 'peaking'
+            },{
+                f: 250,
+                type: 'peaking'
+            },{
+                f: 500,
+                type: 'peaking'
+            },{
+                f: 2000,
+                type: 'peaking'
+            },{
+                f: 8000,
+                type: 'peaking'
+            },{
+                f: 16000,
+                type: 'highshelf'
+            }
+        ];
+
+        // Create Filters
+        var filters = EQ.map((band) => {
+            var filter = wavefile.backend.ac.createBiquadFilter();
+            filter.type = band.type;
+            filter.gain.value = 0;
+            filter.Q.value = 1;
+            filter.frequency.value = band.f;
+            return filter;
+        });
+
+        wavefile.backend.setFilters(filters);
+
+        var container = document.getElementsByClassName("EQ");
+        filters.forEach((filter) => {
+            var input = document.createElement('input');
+            wavefile.util.extend(input, {
+                type: 'range',
+                min: -40,
+                max: 40,
+                value: 0,
+                title: filter.frequency.value
+            });
+            input.style.display = "inline-block";
+            wavefile.drawer.style(input, {
+                'webkitTransform': 'rotate(90deg)',
+                height: '30px',
+                width: '50px'
+            });
+            container[0].appendChild(input);
+        });
+    });
 }
 
 function UpdateFileListUI(audioFile) {
