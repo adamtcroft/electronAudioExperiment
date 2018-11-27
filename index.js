@@ -41,33 +41,33 @@ function DrawWave(file) {
     wavefile = WaveSurfer.create({
         container: '#waveform',
         waveColor: 'white',
-        progressColor: '#827717',
+        progressColor: '#b7a57a',
         responsive: true,
         height: 40
     });
     wavefile.load(file);
 
-    wavefile.on('ready', () =>{
+    wavefile.on('ready', () => {
         EQ = [
             {
-                f: 32,
+                f: 64,
                 type: 'lowshelf'
-            },{
+            }, {
                 f: 125,
                 type: 'peaking'
-            },{
+            }, {
                 f: 250,
                 type: 'peaking'
-            },{
+            }, {
                 f: 500,
                 type: 'peaking'
-            },{
+            }, {
                 f: 2000,
                 type: 'peaking'
-            },{
+            }, {
                 f: 8000,
                 type: 'peaking'
-            },{
+            }, {
                 f: 16000,
                 type: 'highshelf'
             }
@@ -85,7 +85,7 @@ function DrawWave(file) {
 
         wavefile.backend.setFilters(filters);
 
-        var container = document.getElementsByClassName("EQ");
+        var container = document.getElementById("EQ");
         filters.forEach((filter) => {
             var input = document.createElement('input');
             wavefile.util.extend(input, {
@@ -97,11 +97,20 @@ function DrawWave(file) {
             });
             input.style.display = "inline-block";
             wavefile.drawer.style(input, {
-                'webkitTransform': 'rotate(90deg)',
+                'webkitTransform': 'rotate(-90deg)',
                 height: '30px',
                 width: '50px'
             });
-            container[0].appendChild(input);
+            container.appendChild(input);
+            var style = document.querySelector('[data="sliderStyle"]');
+            style.innerHTML = "input[type=range]::-webkit-slider-thumb{ background-color: #b7a57a; }";
+
+            var onChange = (e) => {
+                filter.gain.value = ~~e.target.value;
+            };
+
+            input.addEventListener('input', onChange);
+            input.addEventListener('change', onChange);
         });
     });
 }
@@ -130,12 +139,17 @@ function UpdateFileListUI(audioFile) {
 
 function IsSomethingSelectedAlready() {
     let anchor = document.getElementsByClassName("active");
+    let container = document.getElementById("EQ");
     if (anchor.length != 0) {
         anchor[0].classList.add(normalTextColor);
         anchor[0].classList.remove(activeTextColor);
         anchor[0].classList.remove(activeBackgroundColor);
         anchor[0].classList.remove(activeBackgroundAccent);
         anchor[0].classList.remove("active");
+
+        while(container.hasChildNodes()){
+            container.removeChild(container.childNodes[0]);
+        }
     }
 }
 

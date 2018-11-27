@@ -19,6 +19,7 @@
   "homepage": "https://github.com/adamtcroft/electronAudioExperiment#readme",
   "dependencies": {
     "electron": "^3.0.7",
+    "nouislider": "^12.1.0",
     "wavesurfer.js": "^2.1.0"
   }
 }

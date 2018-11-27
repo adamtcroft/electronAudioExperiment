@@ -14,7 +14,7 @@ let openFileDialogOptions = {
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({ height: 480, width: 550 });
-    //mainWindow.setMenu(null);
+    mainWindow.setMenu(null);
 
     // and load the index.html of the app.
     mainWindow.loadFile('index.html');
